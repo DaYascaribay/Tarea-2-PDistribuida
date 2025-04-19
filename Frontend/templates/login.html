@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>LOG IN</h1>
+    <form id="form_login">
+        <h3>USER</h3>
+        <input type="text" id="user" name="user" placeholder="insert username">
+        <br>
+        <h3>PASSWORD</h3>
+        <input type="password" id="password" name="password" placeholder="insert password">
+        <br><br>
+        <button type="submit" id="sent">Ingresar</button>
+    </form>
+    <script>
+        document.getElementById("form_login").addEventListener("submit", async(e)=>{
+            e.preventDefault();
+
+            const datos = new FormData();
+            datos.append('user', document.getElementById('user').value);
+            datos.append('password', document.getElementById('password').value);
+
+            const backendURL = `http://${window.location.hostname}:666/login`;
+                const response = await fetch(backendURL, { 
+                    method: "POST",
+                    body: datos
+            });
+            
+            const responsejson = await response.json();
+
+            if (responsejson.id_user!=0){    
+                localStorage.setItem("id_user", responsejson.id_user);
+                // Insert login on session table
+                const sessionURL = `http://${window.location.hostname}:666/session`;
+
+                const formdataSession = new FormData();
+                formdataSession.append('id_user',localStorage.getItem("id_user"));
+                formdataSession.append('log_in',1);
+
+                await fetch(sessionURL,{
+                    'body': formdataSession,
+                    'method': "POST"
+                });
+
+                window.location.href = "/insertuser";
+            }else{
+                alert(responsejson.message);
+            }
+        });
+    </script>
+</body>
+</html>

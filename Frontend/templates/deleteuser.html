@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>DELETE USER</h1>
+    <h3>Ingrese el id de usuario que desea eliminar</h3>
+    <form id="formulario2">
+        <input type="text" id="user_info" name="user_info">
+        <br><br>
+        <button type="submit" id="delete">DELETE</button>
+    </form>
+    <script>
+        document.getElementById("formulario2").addEventListener("submit", async(e)=>{
+            e.preventDefault();
+
+            const datos = new FormData();
+            datos.append("user_info", document.getElementById("user_info").value);
+
+            const backendURL = `http://${window.location.hostname}:666/user/delete`;
+                const response = await fetch(backendURL, { 
+                    method: "POST",
+                    body: datos
+            });
+            window.location.href = "https://docs.docker.com/build/concepts/dockerfile/";
+        });
+    </script>
+</body>
+</html>
