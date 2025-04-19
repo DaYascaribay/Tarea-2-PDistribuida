@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>INSERT USER</h1>
+    <form id="formulario">
+        <input type="text" id="username" name="username">
+        <br><br>
+        <input type="password" id="password" name="password">
+        <br><br>
+        <input type="text" id="name" name="name">
+        <br><br>
+        <input type="email" id="email" name="email">
+        <br><br>
+        <input type="text" id="description" name="description">
+        <br><br>
+        <button type="submit" id="sent">SAVE</button>
+    </form>
+    <script>
+        document.getElementById("formulario").addEventListener("submit", async(e)=>{
+            e.preventDefault();
+
+            const datos = new FormData();
+            datos.append("username", document.getElementById("username").value);
+            datos.append("password", document.getElementById("password").value);
+            datos.append("name", document.getElementById("name").value);
+            datos.append("email", document.getElementById("email").value);
+            datos.append("description", document.getElementById("description").value);
+
+            const backendURL = `http://${window.location.hostname}:666/insertuser`;
+                const response = await fetch(backendURL, { 
+                    method: "POST",
+                    body: datos
+            });
+            window.location.href = "https://docs.docker.com/build/concepts/dockerfile/";
+        });
+    </script>
+</body>
+</html>
